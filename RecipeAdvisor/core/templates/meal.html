@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Recipe Advisor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/code/style.css">
+    <link rel='icon' type="image/png" href="/static/code/logo.png">
+
+</head>
+<body onload="getGPSLatLng()">
+
+        {% if user.is_authenticated %}
+
+        <nav class="navbar navbar-inverse ">
+            <div class="container-fluid">
+                <div class="navbar-header" id="myNavbar">
+
+                    <ul class="nav navbar-nav navbar-left">
+
+                        <button onclick="location.href='/core/index/';" class="button_mine "
+                                style=" width:auto; background-color: Black; padding: 14px 24px; margin-left : -15px ; font-style: italic;">
+                            Recipe Advisor
+                        </button>
+
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user_name }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button onclick="document.getElementById('id03').style.display='block'"
+                                            class="button_mine" style="width:100%; background-color: Gray">My Profile
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="document.getElementById('id01').style.display='block'"
+                                            class="cancelbtn button_mine" style="width:100%;">Log Out
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+            <div class="container modal-content">
+
+
+                <h2>Are you sure to logout?</h2>
+                <div class="clearfix">
+
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                            class=" button_mine" style="background-color: Gray">Cancel
+                    </button>
+                    <a href="\core\logout_page" class=" cancelbtn button_mine ">Log out</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="id03" class="modal">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+            <form class="modal-content container" action="/core/name/" method="post">
+
+                <div class="">
+
+                    <h1>My Profile</h1>
+                    <p>Please fill in this form to complete your account data.</p>
+                    <hr>
+                    <label for="first_name"><b>First Name</b></label>
+                    <input type="text" placeholder="Enter Your First Name" name="first_name" required>
+
+                    <label for="last_name"><b>Last Name</b></label>
+                    <input type="text" placeholder="Enter Your First Name" name="last_name" required>
+
+
+                </div>
+
+                <div class="clearfix">
+
+                    <button type="button" onclick="document.getElementById('id03').style.display='none'"
+                            class="cancelbtn button_mine">Cancel
+                    </button>
+                    <button type="submit" class=" button_mine ">Update</button>
+                </div>
+                <br>
+
+            </form>
+        </div>
+
+
+    {% else %}
+
+        {% if mmm %}
+
+
+            <div class="alert alert-danger" role="alert" id="success-alert">
+  Username or Password is not valid
+</div>
+        {% endif %}
+        <nav class="navbar navbar-inverse ">
+            <div class="container-fluid">
+                <div class="navbar-header" id="myNavbar">
+
+
+                    <ul class="nav navbar-nav navbar-left">
+
+
+                        <button onclick="location.href='/core/index/';" class="button_mine "
+                                style=" width:auto; background-color: Black; padding: 14px 24px; margin-left : -15px; font-style: italic;">
+                            Recipe Advisor
+                        </button>
+
+
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <button onclick="document.getElementById('id01').style.display='block'" class="button_mine"
+                                style="width:auto;float: right; padding: 14px 24px;">Login
+                        </button>
+                        <button onclick="document.getElementById('id02').style.display='block'" class="button_mine"
+                                style="width:auto; float: right; background-color: orange; padding: 14px 24px; margin-left : -15px">
+                            Sign Up
+                        </button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <div id="id01" class="modal">
+            <form class="modal-content animate container" action="/core/index/" method="post" style="width: 50%">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                          title="Close Modal">&times;</span>
+                    <img src="/static/code/img_avatar2.png" alt="Avatar" class="avatar">
+                </div>
+
+                <div class="">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+
+
+                <br>
+
+                <div class="row clearfix">
+
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                            class="col-md-6 cancelbtn button_mine">Cancel
+                    </button>
+                    <button type="submit" class="col-md-6 button_mine ">Login</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="id02" class="modal">
+          <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                title="Close Modal">&times;</span>
+            <form class="modal-content container" action="/core/signup/" method="post">
+
+                <div class="">
+
+                    <h1>Sign Up</h1>
+                    <p>Please fill in this form to create an account.</p>
+                    <hr>
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" 
+                           placeholder="Enter Email (your@email.sth)" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+
+                    <label for="psw-repeat"><b>Repeat Password</b></label>
+                    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+
+
+
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                    </label>
+
+                    <p>By creating an account you agree to our <a href="/core/terms_privacy/" target="_blank"
+                                                                  style="color:dodgerblue">Terms & Privacy</a>.</p>
+                    <div class="clearfix">
+
+                        <button type="button" onclick="document.getElementById('id02').style.display='none'"
+                                class="cancelbtn button_mine">Cancel
+                        </button>
+                        <button type="submit" class=" signupbtn button_mine ">Sign Up</button>
+                    </div>
+                    <br>
+                </div>
+            </form>
+        </div>
+
+    {% endif %}
+
+<div class="jumbotron  middel">
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-5 blog-main">
+                <p style="font-size: 35px;"> {{ meal.name }}</p>
+            </div>
+            <div class="col-sm-7 blog-main">
+                <button class="button_mine" style="width:20%; background-color: #4CAF50; border: 1px solid #4CAF50; " id="cooked" onclick="#" >Made
+                    it
+                </button>
+
+                
+
+                {% if fav is True %}
+                    <button class="button_mine fav-btn" link="{{ meal.id }}" id="fav_{{ meal.id }}" type="button"
+                            
+                            style="width:20%; background-color: Orange; color: white; border: 1px solid Orange;">-
+                        Favorite
+                    </button>
+                {% else %}
+
+                    <button class="button_mine fav-btn" link="{{ meal.id }}" id="fav_{{ meal.id }}" type="button"
+                            style="width:20%; background-color: white;color: Orange; border: 1px solid Orange;">+
+                        Favorite
+                    </button>
+                {% endif %}
+
+
+
+                <button class="button_mine" style="width:60%; background-color: gray; border: 1px solid Gray;" id="fav"
+                        onclick="location.href='{{ url }}';">Next Recipe >>
+                </button>
+            </div>
+
+            <div class="col-sm-8 blog-main">
+
+                <div class="blog-post">
+
+
+                    <div class="slideshow-container">
+
+                        <div class="mySlides" >
+                            <div class="numbertext">1 / 4</div>
+                            <img src="/{{ meal.image1 }}" style="max-width: 720px;max-height: 405px" class="center-block">
+                            <div class="text">C{{ meal.name }} 1</div>
+                        </div>
+
+                        <div class="mySlides ">
+                            <div class="numbertext">2 / 4</div>
+                            <img src="/{{ meal.image2 }}" style="max-width: 720px;max-height: 405px" class="center-block">
+                            <div class="text">{{ meal.name }} 2</div>
+                        </div>
+
+                        <div class="mySlides ">
+                            <div class="numbertext">3 / 4</div>
+                            <img src="/{{ meal.image3 }}" style="max-width: 720px;max-height: 405px" class="center-block">
+                            <div class="text">{{ meal.name }} 3</div>
+                        </div>
+                        <div class="mySlides ">
+                            <div class="numbertext">4 / 4</div>
+                            <img src="/{{ meal.image4 }}" style="max-width: 720px;max-height: 405px" class="center-block">
+                            <div class="text">{{ meal.name }} 4</div>
+                        </div>
+
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                    </div>
+                    <br>
+
+                    <div style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                    </div>
+
+
+                </div><!-- /.blog-post -->
+
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Ingredients</h2>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {% for i in ind_odd %}
+
+                                <label class="checkboxcontainer">{{ i }}
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                            {% endfor %}
+
+                        </div>
+                        <div class="col-sm-6">
+                            {% for i in ind_even %}
+
+                                <label class="checkboxcontainer">{{ i }}
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+
+                </div><!-- /.blog-post -->
+
+                <div class="blog-post">
+                    <h2 class="blog-post-title">Directions</h2>
+
+                    {% for i in directions %}
+                        <label class="checkboxcontainer">{{ i.text }}
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    {% endfor %}
+
+
+                </div><!-- /.blog-post -->
+
+
+            </div><!-- /.blog-main -->
+
+            <div class="col-sm-3 offset-sm-1 blog-sidebar">
+
+                <div class="sidebar-module">
+                    <h3>More Info</h3>
+
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text">Servings</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text">{{ meal.servings }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text">Preperation Time</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text">{{ meal.preparation_time }} m</div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-7">
+                            <div class="sidebar_text">Cooking Time</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text">{{ meal.cooking_time }} m</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sidebar-module sidebar-module-inset">
+                    <h3>ٔNutrition Facts</h3>
+
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Calories Per Serving</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Calories }} Cal</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Fat</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Fat }} g</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Carbohydrates</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Carbohydrates }} g</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Protein</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Protein }} g</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Cholesterol</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Cholesterol }} mg</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="sidebar_text"> Sodium</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="sidebar_text"> {{ meal.Sodium }} mg</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="sidebar-module">
+                    <h3>Location</h3>
+
+
+                    <div class="sidebar_text">We are showing the stores based on your current location, you can change
+                        it if you are looking for somewhere else
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div id="geolocate">
+                                <input id="address" type="sidebar_text" placeholder="Enter an address here">
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <button class="location button_mine" style="width:100%; background-color: rgb(69, 138, 230); padding: 4px 25px;"
+                                    id="geo"
+                                    onclick="displayMapByAddress()">Geolocate
+                            </button>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div id="basic_map" style="width:320px;height:240px;"></div>
+                        <div id="gps_coords"></div>
+                    </div>
+
+
+                </div>
+                <div class="sidebar-module">
+                    <h3>Share it</h3>
+
+
+                    <a href="https://www.instagram.com/" class="fa fa-instagram"></a>
+                    <a href="https://www.facebook.com/" class="fa fa-facebook"></a>
+                    <a href="https://www.twitter.com/" class="fa fa-twitter"></a>
+
+
+                </div>
+            </div><!-- /.blog-sidebar -->
+
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+</div> <!-- /.jumbotron -->
+
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+</script>
+
+<script>
+    var updateLocation;
+    var lat;
+    var lon;
+
+    function getGPS() {
+        //The enableAccuracy option provides you with the highest accuracy but consumes a lot of battery life.
+        navigator.geolocation.getCurrentPosition(successGPS, errorGPS, {enableHighAccuracy: true});
+    }
+
+    /* This function is invoked by the geolocation.getCurrentPosition method used
+    in getGPS()
+    */
+    function successGPS(position) {
+        //store the location latitude and longtitude info
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        //create a new <p> element that displays the current latitude and longitude, add the new <p> to the div
+        var div = document.getElementById("gps_coords");
+        var par = document.createElement("p");
+        par.innerHTML = "lat=" + lat + " ,lon=" + lon + "<br>";
+        div.appendChild(par);
+    }
+
+    /* This function is invoked when there is an error in reading GPS info*/
+    function errorGPS() {
+        alert("GPS Error");
+    }
+
+    function watchGPS() {
+        updateLocation = navigator.geolocation.watchPosition(successGPS, errorGPS,
+            {enableHighAccuracy: true});
+    }
+</script>
+
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
+
+<script>
+    function fav() {
+        $(".fav-btn").unbind("click");
+        $(".fav-btn").on("click", function (e) {
+            var ids = $(this).attr('link');
+            var tag_id = $(this).attr('id')
+            var xhttp;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                    res_q = myFunction(xhttp);
+                    {##}
+                    var md = JSON.parse(res_q)
+                    var md = JSON.parse(md["data"])
+                    console.log(md);
+                    $("#" + tag_id).html(md["text"]);
+                    $("#" + tag_id).css('background-color', md["background-color"]);
+                    $("#" + tag_id).css('color', md["color"]);
+
+                }
+            };
+            var data = new FormData();
+            data.append('id', ids);
+            xhttp.open("POST", '/core/favorite/', true);
+            xhttp.send(data);
+        });
+
+
+        function myFunction(xhttp) {
+
+            return (xhttp.response);
+
+        }
+
+
+    }
+
+</script>
+
+<script>
+    /*This function is used to retrieve GPS coordinates and pass them to a
+    function, which in turn initializes a Google Map centered on the current
+    location of the device.*/
+    function getGPSLatLng() {
+        navigator.geolocation.getCurrentPosition(successGPSLatLng, errorGPS, {enableHighAccuracy: true});
+    }
+
+    /*This function initializes a Google Map object centered on the current
+    location of the device */
+    function successGPSLatLng(position) {
+        //store current latitude and longitude information
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        //create a new google.maps.LatLng object
+        var latlng = new google.maps.LatLng(lat, lon);
+        //set Google Map options
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        //create a new map, pass its <div> container as parameter
+        var map = new google.maps.Map(document.getElementById("basic_map"), myOptions);
+        //place a marker with current latitude and longitude on the map
+        var marker = new google.maps.Marker({position: latlng, map: map});
+    }
+
+    function displayMapByAddress() {
+        var address = document.getElementById("address");
+        //create a Geocoder object and use its geocode method. Pass the address as a parameter using JSON syntax
+        var geocoder = new google.maps.Geocoder();
+        //geocode methods takes two parameters: an address, and a function which processes the results. In our case this function calls the function initializeByAddress.
+        geocoder.geocode({'address': address.value},
+            function (results, status) {
+                initializeByAddress(results[0].geometry.location);
+            });
+    }
+
+    function initializeByAddress(location) {
+        var myOptions = {
+            zoom: 15,
+            center: location,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById("basic_map"),
+            myOptions);
+        var marker = new google.maps.Marker({position: location, map: map});
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        fav();
+    });
+
+</script>
+
+
+
+<script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id02');
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    </script>
+    
+    
+    <script>
+    
+            var password = document.getElementById("psw")
+            , confirm_password = document.getElementById("psw-repeat");
+          
+          function validatePassword(){
+            if(password.value != confirm_password.value) {
+              confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+              confirm_password.setCustomValidity('');
+            }
+          }
+          
+          password.onchange = validatePassword;
+          confirm_password.onkeyup = validatePassword;
+    </script>
+
+
+</body>
+</html>
+

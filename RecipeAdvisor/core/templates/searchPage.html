@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Recipe Advisor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/code/style.css">
+    <link rel='icon' type="image/png" href="/static/code/logo.png">
+    <link rel="apple-touch-icon" href="/static/code/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-webapp-status-bar-style" content="black"/>
+
+
+</head>
+<body>
+
+        {% if user.is_authenticated %}
+
+        <nav class="navbar navbar-inverse ">
+            <div class="container-fluid">
+                <div class="navbar-header" id="myNavbar">
+
+                    <ul class="nav navbar-nav navbar-left">
+
+                        <button onclick="location.href='/core/index/';" class="button_mine "
+                                style=" width:auto; background-color: Black; padding: 14px 24px; margin-left : -15px ; font-style: italic;">
+                            Recipe Advisor
+                        </button>
+
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user_name }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button onclick="document.getElementById('id03').style.display='block'"
+                                            class="button_mine" style="width:100%; background-color: Gray">My Profile
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="document.getElementById('id01').style.display='block'"
+                                            class="cancelbtn button_mine" style="width:100%;">Log Out
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+            <div class="container modal-content">
+
+
+                <h2>Are you sure to logout?</h2>
+                <div class="clearfix">
+
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                            class=" button_mine" style="background-color: Gray">Cancel
+                    </button>
+                    <a href="\core\logout_page" class=" cancelbtn button_mine ">Log out</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="id03" class="modal">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close"
+                      title="Close Modal">&times;</span>
+            <form class="modal-content container" action="/core/name/" method="post">
+
+                <div class="">
+
+                    <h1>My Profile</h1>
+                    <p>Please fill in this form to complete your account data.</p>
+                    <hr>
+                    <label for="first_name"><b>First Name</b></label>
+                    <input type="text" placeholder="Enter Your First Name" name="first_name" required>
+
+                    <label for="last_name"><b>Last Name</b></label>
+                    <input type="text" placeholder="Enter Your First Name" name="last_name" required>
+
+
+                </div>
+
+                <div class="clearfix">
+
+                    <button type="button" onclick="document.getElementById('id03').style.display='none'"
+                            class="cancelbtn button_mine">Cancel
+                    </button>
+                    <button type="submit" class=" button_mine ">Update</button>
+                </div>
+                <br>
+
+            </form>
+        </div>
+
+
+    {% else %}
+
+        {% if mmm %}
+
+
+            <div class="alert alert-danger" role="alert" id="success-alert">
+  Username or Password is not valid
+</div>
+        {% endif %}
+        <nav class="navbar navbar-inverse ">
+            <div class="container-fluid">
+                <div class="navbar-header" id="myNavbar">
+
+
+                    <ul class="nav navbar-nav navbar-left">
+
+
+                        <button onclick="location.href='/core/index/';" class="button_mine "
+                                style=" width:auto; background-color: Black; padding: 14px 24px; margin-left : -15px; font-style: italic;">
+                            Recipe Advisor
+                        </button>
+
+
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <button onclick="document.getElementById('id01').style.display='block'" class="button_mine"
+                                style="width:auto;float: right; padding: 14px 24px;">Login
+                        </button>
+                        <button onclick="document.getElementById('id02').style.display='block'" class="button_mine"
+                                style="width:auto; float: right; background-color: orange; padding: 14px 24px; margin-left : -15px">
+                            Sign Up
+                        </button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <div id="id01" class="modal">
+            <form class="modal-content animate container" action="/core/index/" method="post" style="width: 50%">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                          title="Close Modal">&times;</span>
+                    <img src="/static/code/img_avatar2.png" alt="Avatar" class="avatar">
+                </div>
+
+                <div class="">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+
+
+                <br>
+
+                <div class="row clearfix">
+
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                            class="col-md-6 cancelbtn button_mine">Cancel
+                    </button>
+                    <button type="submit" class="col-md-6 button_mine ">Login</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="id02" class="modal">
+          <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                title="Close Modal">&times;</span>
+            <form class="modal-content container" action="/core/signup/" method="post">
+
+                <div class="">
+
+                    <h1>Sign Up</h1>
+                    <p>Please fill in this form to create an account.</p>
+                    <hr>
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" 
+                           placeholder="Enter Email (your@email.sth)" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+
+                    <label for="psw-repeat"><b>Repeat Password</b></label>
+                    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+
+
+
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                    </label>
+
+                    <p>By creating an account you agree to our <a href="/core/terms_privacy/" target="_blank"
+                                                                  style="color:dodgerblue">Terms & Privacy</a>.</p>
+                    <div class="clearfix">
+
+                        <button type="button" onclick="document.getElementById('id02').style.display='none'"
+                                class="cancelbtn button_mine">Cancel
+                        </button>
+                        <button type="submit" class=" signupbtn button_mine ">Sign Up</button>
+                    </div>
+                    <br>
+                </div>
+            </form>
+        </div>
+
+    {% endif %}
+
+<div class="jumbotron middel">
+
+    <div class="container">
+        <p style="font-size: 35px;"> You can search the recipe you want, here!</p>
+        <form class="search_mine" action="/core/searchPage/" method="post">
+            <input type="text" placeholder="Enter the recipe name here, or just push the search button with not filter to see all the recipes" name="search">
+
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>Diet and Health</h3>
+                    <label class="checkboxcontainer">Low cal
+                        <input type="checkbox" name="health" value="cal">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Low fat
+                        <input type="checkbox" name="health" value="fat">
+                        <span class="checkmark"></span>
+                    </label>
+
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>Style</h3>
+                    <label class="checkboxcontainer">Vegan
+                        <input type="radio" name="Style" value="Vegan">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Vegetarian
+                        <input type="radio" name="Style" value="Vegetarian">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>Meal Type</h3>
+                    <label class="checkboxcontainer">Snack
+                        <input type="radio" name="Type" value="Snack">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Breakfast/ Brunch
+                        <input type="radio" name="Type" value="Break fast">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Dinner/ Lunch
+                        <input type="radio" name="Type" value="Dinner/Lunch">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Drink
+                        <input type="radio" name="Type" value="Drink">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkboxcontainer">Dessert
+                        <input type="radio" name="Type" value="Dessert">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+            </div>
+
+            {#        <form class="search_mine button_mine" style="width:100%;" action="/action_page.php">#}
+            <button type="submit button_mine"><i class="fa fa-search  "></i></button>
+
+        </form>
+    </div>
+
+
+    <div class="container">
+        <h2>Search Results</h2>
+
+        {% if meal %}
+
+            <div class="panel-group">
+                {% for i in meal %}
+                    <a href="/core/meal/?id={{ i.id }}" target="_blank" class="panel panel-default">
+                        <div class="panel-heading"> {{ i.name }}</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <img  src="/{{ i.image1 }}" style="width:75%" onclick=""/>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <div class="sidebar_text">Servings</div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="sidebar_text">{{ i.servings }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <div class="sidebar_text">Preperation Time</div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="sidebar_text">{{ i.preparation_time }} m</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-sm-7">
+                                            <div class="sidebar_text">Cooking Time</div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="sidebar_text">{{ i.cooking_time }} m</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+
+                {% endfor %}
+
+            </div>
+        {% else %}
+            No recipe found in the database.
+        {% endif %}
+    </div>
+</div>
+
+
+</div>
+
+
+<script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id02');
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    </script>
+    
+    
+    <script>
+    
+            var password = document.getElementById("psw")
+            , confirm_password = document.getElementById("psw-repeat");
+          
+          function validatePassword(){
+            if(password.value != confirm_password.value) {
+              confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+              confirm_password.setCustomValidity('');
+            }
+          }
+          
+          password.onchange = validatePassword;
+          confirm_password.onkeyup = validatePassword;
+    </script>
+</body>
+</html>
+
